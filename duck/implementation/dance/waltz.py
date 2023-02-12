@@ -1,4 +1,4 @@
-from dancestrategy import DanceStrategy
+from .dancestrategy import DanceStrategy
 
 
 class Waltz(DanceStrategy):

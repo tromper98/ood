@@ -1,4 +1,4 @@
-from .flystrategy import FlyStrategy
+from flystrategy import FlyStrategy
 
 
 class FlyNoWay(FlyStrategy):
