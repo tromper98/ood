@@ -6,4 +6,4 @@ class Quack(QuackStrategy):
         super().__init__()
 
     def quack(self) -> str:
-        return 'Крякаем'
+        return 'крякаем'

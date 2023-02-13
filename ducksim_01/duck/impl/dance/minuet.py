@@ -6,4 +6,4 @@ class Minuet(DanceStrategy):
         super().__init__()
 
     def dance(self) -> str:
-        return 'танцует мэнует'
+        return 'танцует менует'

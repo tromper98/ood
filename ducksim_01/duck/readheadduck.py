@@ -7,7 +7,7 @@ from .impl.dance import Minuet
 
 class ReadHeadDuck(Duck):
     def __init__(self):
-        super().__init__(Quack, FlyWithWings, Minuet)
+        super().__init__(Quack(), FlyWithWings(), Minuet())
 
     @staticmethod
     def display() -> str:
