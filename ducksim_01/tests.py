@@ -1,6 +1,9 @@
 import pytest
 
 from .duck import *
+from .duck.impl.quack import *
+from .duck.impl.dance import *
+from .duck.impl.fly import *
 
 
 def test_create_decoy_duck():
@@ -46,3 +49,33 @@ def test_increase_fly_counter_when_duck_fly():
     duck.perform_fly()
     assert duck.perform_fly() == 'летим, машем крылышками. Полет под номером 4'
 
+
+def test_change_quack_strategy():
+    duck = RubberDuck()
+    assert duck.perform_quack() == 'пищим'
+    duck.change_quack_strategy(Quack())
+    assert duck.perform_quack() == 'крякаем'
+
+
+def test_change_dance_strategy():
+    duck = DecoyDuck()
+    assert duck.perform_dance() is None
+    duck.change_dance_strategy(Waltz())
+    assert duck.perform_dance() == 'танцует вальс'
+
+
+def test_change_fly_strategy():
+    duck = ReadHeadDuck()
+    duck.perform_fly()
+    duck.perform_fly()
+
+    assert duck.perform_fly() == 'летим, машем крылышками. Полет под номером 3'
+    duck.change_fly_strategy(FlyNoWay())
+
+    assert duck.perform_fly() is None
+    duck.change_fly_strategy(FlyWithWings())
+
+    duck.perform_fly()
+    duck.perform_fly()
+    duck.perform_fly()
+    assert duck.perform_fly() == 'летим, машем крылышками. Полет под номером 4'
