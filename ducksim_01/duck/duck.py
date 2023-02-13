@@ -24,6 +24,15 @@ class Duck:
     def perform_dance(self) -> Optional[str]:
         return self._dance_strategy.dance()
 
+    def change_quack_strategy(self, new_quack_strategy: QuackStrategy) -> None:
+        self._quack_strategy = new_quack_strategy
+
+    def change_fly_strategy(self, new_fly_strategy: FlyStrategy) -> None:
+        self._fly_strategy = new_fly_strategy
+
+    def change_dance_strategy(self, new_dance_strategy: DanceStrategy) -> None:
+        self._dance_strategy = new_dance_strategy
+
     @staticmethod
     def display() -> str:
         ...
