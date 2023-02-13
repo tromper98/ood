@@ -37,3 +37,12 @@ def test_create_readhead_duck():
     assert duck.perform_dance() == 'танцует менует'
     assert duck.swim() == 'плавает'
     assert duck.display() == 'красноголовая утка'
+
+
+def test_increase_fly_counter_when_duck_fly():
+    duck = MallardDuck()
+    duck.perform_fly()
+    duck.perform_fly()
+    duck.perform_fly()
+    assert duck.perform_fly() == 'летим, машем крылышками. Полет под номером 4'
+
