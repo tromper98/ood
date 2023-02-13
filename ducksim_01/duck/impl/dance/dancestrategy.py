@@ -1,6 +1,7 @@
-from typing import Protocol, Optional
+from typing import Optional
+from abc import ABC
 
 
-class DanceStrategy(Protocol):
+class DanceStrategy(ABC):
     def dance(self) -> Optional[str]:
         ...

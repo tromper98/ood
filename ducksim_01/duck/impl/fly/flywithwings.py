@@ -6,4 +6,5 @@ class FlyWithWings(FlyStrategy):
         super().__init__()
 
     def fly(self) -> str:
-        return 'летим, машем крылышками'
+        self._fly_counter += 1
+        return f'летим, машем крылышками. Полет под номером {self._fly_counter}'
