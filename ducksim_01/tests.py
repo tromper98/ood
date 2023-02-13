@@ -23,7 +23,7 @@ def test_create_rubber_duck():
 
 def test_create_mallard_duck():
     duck = MallardDuck()
-    assert duck.perform_fly() == 'летим, машем крылышками'
+    assert duck.perform_fly() == 'летим, машем крылышками. Полет под номером 1'
     assert duck.perform_quack() == 'крякаем'
     assert duck.perform_dance() == 'танцует вальс'
     assert duck.swim() == 'плавает'
@@ -32,7 +32,7 @@ def test_create_mallard_duck():
 
 def test_create_readhead_duck():
     duck = ReadHeadDuck()
-    assert duck.perform_fly() == 'летим, машем крылышками'
+    assert duck.perform_fly() == 'летим, машем крылышками. Полет под номером 1'
     assert duck.perform_quack() == 'крякаем'
     assert duck.perform_dance() == 'танцует менует'
     assert duck.swim() == 'плавает'
