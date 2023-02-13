@@ -1,7 +1,7 @@
-from dancestrategy import DanceStrategy
+from .dancestrategy import DanceStrategy
 
 
-class Menuet(DanceStrategy):
+class Minuet(DanceStrategy):
     def __init__(self):
         super().__init__()
 

@@ -1,8 +1,8 @@
 from typing import Optional
 
-from impl.quack import QuackStrategy
-from impl.fly import FlyStrategy
-from impl.dance import DanceStrategy
+from .impl.quack import QuackStrategy
+from .impl.fly import FlyStrategy
+from .impl.dance import DanceStrategy
 
 
 class Duck:
