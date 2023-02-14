@@ -1,8 +1,8 @@
 from .duck import Duck
 
-from .impl.fly import FlyNoWay
-from .impl.quack import MuteQuack
-from .impl.dance import NoDance
+from .lib.fly import FlyNoWay
+from .lib.quack import MuteQuack
+from .lib.dance import NoDance
 
 
 class DecoyDuck(Duck):

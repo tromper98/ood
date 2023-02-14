@@ -1,9 +1,9 @@
 import pytest
 
 from .duck import *
-from .duck.impl.quack import *
-from .duck.impl.dance import *
-from .duck.impl.fly import *
+from .duck.lib.quack import *
+from .duck.lib.dance import *
+from .duck.lib.fly import *
 
 
 def test_create_decoy_duck():

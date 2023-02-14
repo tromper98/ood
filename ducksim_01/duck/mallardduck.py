@@ -1,8 +1,8 @@
 from .duck import Duck
 
-from .impl.fly import FlyWithWings
-from .impl.quack import Quack
-from .impl.dance import Waltz
+from .lib.fly import FlyWithWings
+from .lib.quack import Quack
+from .lib.dance import Waltz
 
 
 class MallardDuck(Duck):
