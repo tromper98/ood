@@ -1,3 +1,4 @@
+from .duck import Duck
 from .decoyduck import DecoyDuck
 from .mallardduck import MallardDuck
 from .readheadduck import ReadHeadDuck
