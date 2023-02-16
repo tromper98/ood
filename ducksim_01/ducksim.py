@@ -70,7 +70,6 @@ class DuckSimulatorController:
     def _ducks_to_str(self) -> str:
         return ' '.join([name for name in self._get_duck_types().keys()])
 
-
     @staticmethod
     def _get_duck_types() -> dict[str, Callable]:
         ducks: dict[str, Callable] = {
