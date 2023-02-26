@@ -1,14 +1,7 @@
 from typing import List
-from dataclasses import dataclass
 
 from interfaces import ObservableInterface, ObserverInterface
-
-
-@dataclass()
-class WeatherInfo:
-    temperature: float
-    pressure: float
-    humidity: float
+from dataclass import WeatherInfo
 
 
 class WeatherStation(ObservableInterface):
