@@ -2,8 +2,10 @@ from .flystrategy import FlyStrategy
 
 
 class FlyWithWings(FlyStrategy):
+    _fly_counter: int
+
     def __init__(self):
-        super().__init__()
+        self._fly_counter = 0
 
     def fly(self) -> str:
         self._fly_counter += 1
