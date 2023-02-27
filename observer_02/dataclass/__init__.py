@@ -1,1 +1,1 @@
-from weatherinfo import WeatherInfo
+from .weatherinfo import WeatherInfo
