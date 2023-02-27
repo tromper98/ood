@@ -7,11 +7,11 @@ station = WeatherStation()
 display = Display()
 stats_display = StatisticDisplay()
 
-station.register_observer(display)
+station.register_observer(display, 2)
 
 station.set_measurements(30, 70.5, 780)
 
-station.register_observer(stats_display)
+station.register_observer(stats_display, 1)
 
 
 station.set_measurements(20, 50, 767)

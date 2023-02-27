@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict
 
 from interfaces import ObservableInterface, ObserverInterface
 from weatherinfo import WeatherInfo
@@ -8,22 +8,24 @@ class WeatherStation(ObservableInterface):
     __temperature: float
     __humidity: float
     __pressure: float
-    __observers: List[ObserverInterface]
+    _observers: Dict[ObserverInterface, float]
 
     def __init__(self):
         self.__temperature = 0.0
         self.__humidity = 0.0
         self.__pressure = 760
-        self.__observers = []
+        self._observers = {}
 
-    def register_observer(self, observer: ObserverInterface):
-        self.__observers.append(observer)
+    def register_observer(self, observer: ObserverInterface, priority: int):
+        self._observers[observer] = priority
+        sorted_observers = sorted(self._observers.items(), key=lambda x: x[1])
+        self._observers = dict(sorted_observers)
 
     def remove_observer(self, observer: ObserverInterface):
-        self.__observers.remove(observer)
+        self._observers.pop(observer)
 
     def notify_observers(self):
-        for observer in self.__observers:
+        for observer in self._observers:
             observer.update(self.get_measurements())
 
     def measurements_changed(self):
