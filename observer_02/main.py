@@ -13,6 +13,7 @@ station.set_measurements(30, 70.5, 780)
 
 station.register_observer(stats_display)
 
+
 station.set_measurements(20, 50, 767)
 
 station.remove_observer(display)

@@ -1,7 +1,7 @@
 from typing import List
 
 from interfaces import ObservableInterface, ObserverInterface
-from dataclass import WeatherInfo
+from weatherinfo import WeatherInfo
 
 
 class WeatherStation(ObservableInterface):

@@ -1,1 +1,0 @@
-from .weatherinfo import WeatherInfo
