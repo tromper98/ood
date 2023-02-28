@@ -1,19 +1,22 @@
 from typing import Dict
 
-from interfaces import ObservableInterface, ObserverInterface
+from interfaces.observer import ObserverInterface
+from interfaces.observable import ObservableInterface
 from weatherinfo import WeatherInfo
 
 
 class WeatherStation(ObservableInterface):
-    __temperature: float
-    __humidity: float
-    __pressure: float
+    _temperature: float
+    _humidity: float
+    _pressure: float
+    _description: str
     _observers: Dict[ObserverInterface, float]
 
-    def __init__(self):
-        self.__temperature = 0.0
-        self.__humidity = 0.0
-        self.__pressure = 760
+    def __init__(self, description: str):
+        self._temperature = 0.0
+        self._humidity = 0.0
+        self._pressure = 760
+        self._description = description
         self._observers = {}
 
     def register_observer(self, observer: ObserverInterface, priority: int):
@@ -26,29 +29,36 @@ class WeatherStation(ObservableInterface):
 
     def notify_observers(self):
         for observer in self._observers:
-            observer.update(self.get_measurements())
+            observer.update(self, self.get_measurements())
 
     def measurements_changed(self):
         self.notify_observers()
 
     def get_measurements(self) -> WeatherInfo:
-        return WeatherInfo(temperature=self.temperature, humidity=self.humidity, pressure=self.pressure)
+        return WeatherInfo(temperature=self.temperature,
+                           humidity=self.humidity,
+                           pressure=self.pressure,
+                           source_info=self._description)
 
     def set_measurements(self, temperature: float, humidity: float, pressure: float):
-        self.__temperature = temperature
-        self.__humidity = humidity
-        self.__pressure = pressure
+        self._temperature = temperature
+        self._humidity = humidity
+        self._pressure = pressure
 
         self.measurements_changed()
 
     @property
     def temperature(self) -> float:
-        return self.__temperature
+        return self._temperature
 
     @property
     def pressure(self) -> float:
-        return self.__pressure
+        return self._pressure
 
     @property
     def humidity(self) -> float:
-        return self.__humidity
+        return self._humidity
+
+    @property
+    def description(self) -> str:
+        return self._description

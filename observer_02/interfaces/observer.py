@@ -4,5 +4,5 @@ from observer_02.weatherinfo import WeatherInfo
 
 
 class ObserverInterface(Protocol):
-    def update(self, info: WeatherInfo):
+    def update(self, observable, info: WeatherInfo):
         ...

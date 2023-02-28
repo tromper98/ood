@@ -1,9 +1,10 @@
-from interfaces import ObserverInterface
+from interfaces import ObserverInterface, ObservableInterface
 from weatherinfo import WeatherInfo
 
 
 class Display(ObserverInterface):
-    def update(self, info: WeatherInfo):
+    def update(self, observable: ObservableInterface, info: WeatherInfo):
+        print(f'Source: {info.source_info}')
         print(f'Current Temp: {info.temperature}')
         print(f'Current Pressure: {info.pressure}')
         print(f'Current Humidity: {info.humidity}')
@@ -39,7 +40,7 @@ class StatisticDisplay(ObserverInterface):
         self._sum_humidity = 0.0
         self._measure_count = 0
 
-    def update(self, info: WeatherInfo):
+    def update(self, observable: ObservableInterface, info: WeatherInfo):
         self._measure_count += 1
         self._update_temperature(info)
         self._update_pressure(info)
@@ -54,7 +55,11 @@ class StatisticDisplay(ObserverInterface):
 
         self._sum_temperature += info.temperature
 
-        self._display_measurement(self._max_temperature, self._min_temperature, self._sum_temperature, 'Temperature')
+        self._display_measurement(info.source_info,
+                                  self._max_temperature,
+                                  self._min_temperature,
+                                  self._sum_temperature,
+                                  'Temperature')
 
     def _update_pressure(self, info: WeatherInfo):
         if self._min_pressure > info.pressure:
@@ -65,7 +70,11 @@ class StatisticDisplay(ObserverInterface):
 
         self._sum_pressure += info.pressure
 
-        self._display_measurement(self._max_pressure, self._min_pressure, self._sum_pressure, 'Pressure')
+        self._display_measurement(info.source_info,
+                                  self._max_pressure,
+                                  self._min_pressure,
+                                  self._sum_pressure,
+                                  'Pressure')
 
     def _update_humidity(self, info: WeatherInfo):
         if self._min_humidity > info.humidity:
@@ -76,9 +85,14 @@ class StatisticDisplay(ObserverInterface):
 
         self._sum_humidity += info.humidity
 
-        self._display_measurement(self._max_humidity, self._min_humidity, self._sum_humidity, 'Humidity')
+        self._display_measurement(info.source_info,
+                                  self._max_humidity,
+                                  self._min_humidity,
+                                  self._sum_humidity,
+                                  'Humidity')
 
-    def _display_measurement(self, max_value: float, min_value: float, sum_values: float, measure: str):
+    def _display_measurement(self, source_info: str, max_value: float, min_value: float, sum_values: float, measure: str):
+        print(f'Source: {source_info}')
         print(f'Max {measure}: {max_value}')
         print(f'Min {measure}: {min_value}')
         print(f'Avg {measure}: {sum_values / self._measure_count}')
