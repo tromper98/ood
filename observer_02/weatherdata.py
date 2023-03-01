@@ -3,7 +3,7 @@ from typing import Dict
 from lib import ObserverInterface, ObservableInterface, WeatherInfo
 
 
-class WeatherStation(ObservableInterface):
+class WeatherData(ObservableInterface):
     _temperature: float
     _humidity: float
     _pressure: float
@@ -41,8 +41,7 @@ class WeatherStation(ObservableInterface):
                            humidity=self.humidity,
                            pressure=self.pressure,
                            wind_direction=self._wind_direction,
-                           wind_speed=self._wind_speed,
-                           source_info=self._description)
+                           wind_speed=self._wind_speed)
 
     def set_measurements(self, temperature: float, humidity: float, pressure: float, wind_direction: float, wind_speed: float):
         self._temperature = temperature
@@ -73,6 +72,5 @@ class WeatherStation(ObservableInterface):
     def wind_speed(self) -> float:
         return self._wind_speed
 
-    @property
-    def description(self) -> str:
+    def get_info(self) -> str:
         return self._description

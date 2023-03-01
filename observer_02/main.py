@@ -1,9 +1,9 @@
-from weatherstation import WeatherStation
+from weatherdata import WeatherData
 from displays import *
 
 
-in_station = WeatherStation('intra-house station')
-out_station = WeatherStation('outdoor station')
+in_station = WeatherData('intra-house station')
+out_station = WeatherData('outdoor station')
 
 display = Display()
 stats_display = StatisticDisplay()

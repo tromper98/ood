@@ -5,8 +5,11 @@ from lib.weatherinfo import WeatherInfo
 
 
 class Display(ObserverInterface):
+    _source_info: str
+
     def update(self, observable: ObservableInterface, info: WeatherInfo):
-        print(f'Source: {info.source_info}')
+        self._source_info = observable.get_info()
+        print(f'Source: {self._source_info}')
         print(f'Current Temp: {info.temperature}')
         print(f'Current Pressure: {info.pressure}')
         print(f'Current Humidity: {info.humidity}')
@@ -56,8 +59,10 @@ class StatisticDisplay(ObserverInterface):
         self.__sum_cos = 0.0
 
         self._measure_count = 0
+        self._source_info = None
 
     def update(self, observable: ObservableInterface, info: WeatherInfo):
+        self._source_info = observable.get_info()
         self._measure_count += 1
         self._update_temperature(info)
         self._update_pressure(info)
@@ -73,8 +78,7 @@ class StatisticDisplay(ObserverInterface):
 
         self._sum_temperature += info.temperature
 
-        self._display_measurement(info.source_info,
-                                  self._max_temperature,
+        self._display_measurement(self._max_temperature,
                                   self._min_temperature,
                                   self._sum_temperature,
                                   'Temperature')
@@ -88,8 +92,7 @@ class StatisticDisplay(ObserverInterface):
 
         self._sum_pressure += info.pressure
 
-        self._display_measurement(info.source_info,
-                                  self._max_pressure,
+        self._display_measurement(self._max_pressure,
                                   self._min_pressure,
                                   self._sum_pressure,
                                   'Pressure')
@@ -103,8 +106,7 @@ class StatisticDisplay(ObserverInterface):
 
         self._sum_humidity += info.humidity
 
-        self._display_measurement(info.source_info,
-                                  self._max_humidity,
+        self._display_measurement(self._max_humidity,
                                   self._min_humidity,
                                   self._sum_humidity,
                                   'Humidity')
@@ -119,17 +121,17 @@ class StatisticDisplay(ObserverInterface):
         self._avg_wind_direction = (math.degrees(math.atan2(avg_sin, avg_cos)) + 360) % 360
         self._avg_wind_speed = math.sqrt(avg_sin * avg_sin + avg_cos * avg_cos)
 
-        self._display_avg_wind_measurement(info.source_info)
+        self._display_avg_wind_measurement()
 
-    def _display_measurement(self, source_info: str, max_value: float, min_value: float, sum_values: float, measure: str):
-        print(f'Source: {source_info}')
+    def _display_measurement(self, max_value: float, min_value: float, sum_values: float, measure: str):
+        print(f'Source: {self._source_info}')
         print(f'Max {measure}: {max_value}')
         print(f'Min {measure}: {min_value}')
         print(f'Avg {measure}: {round(sum_values / self._measure_count, 2)}')
         print('-' * 10)
 
-    def _display_avg_wind_measurement(self, source_info: str):
-        print(f'Source: {source_info}')
+    def _display_avg_wind_measurement(self):
+        print(f'Source: {self._source_info}')
         print(f'Avg wind direction: {round(self._avg_wind_direction, 2)}')
         print(f'Avg wind speed: {round(self._avg_wind_speed, 2)}')
         print('-' * 10)

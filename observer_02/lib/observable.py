@@ -6,11 +6,14 @@ from . import ObserverInterface
 
 class ObservableInterface(Protocol):
 
-    def register_observer(self, observer: ObserverInterface, priority: int):
+    def register_observer(self, observer: ObserverInterface, priority: int) -> None:
         ...
 
-    def remove_observer(self, observer: ObserverInterface):
+    def remove_observer(self, observer: ObserverInterface) -> None:
         ...
 
-    def notify_observers(self):
+    def notify_observers(self) -> None:
+        ...
+
+    def get_info(self) -> str:
         ...
