@@ -9,6 +9,8 @@ class WeatherStation(ObservableInterface):
     _temperature: float
     _humidity: float
     _pressure: float
+    _wind_direction: float
+    _wind_speed: float
     _description: str
     _observers: Dict[ObserverInterface, float]
 
@@ -16,6 +18,8 @@ class WeatherStation(ObservableInterface):
         self._temperature = 0.0
         self._humidity = 0.0
         self._pressure = 760
+        self._wind_direction = 0.0
+        self._wind_speed = 0.0
         self._description = description
         self._observers = {}
 
@@ -38,12 +42,16 @@ class WeatherStation(ObservableInterface):
         return WeatherInfo(temperature=self.temperature,
                            humidity=self.humidity,
                            pressure=self.pressure,
+                           wind_direction=self._wind_direction,
+                           wind_speed=self._wind_speed,
                            source_info=self._description)
 
-    def set_measurements(self, temperature: float, humidity: float, pressure: float):
+    def set_measurements(self, temperature: float, humidity: float, pressure: float, wind_direction: float, wind_speed: float):
         self._temperature = temperature
         self._humidity = humidity
         self._pressure = pressure
+        self._wind_direction = wind_direction
+        self._wind_speed = wind_speed
 
         self.measurements_changed()
 
@@ -58,6 +66,14 @@ class WeatherStation(ObservableInterface):
     @property
     def humidity(self) -> float:
         return self._humidity
+
+    @property
+    def wind_direction(self) -> float:
+        return self._wind_direction
+
+    @property
+    def wind_speed(self) -> float:
+        return self._wind_speed
 
     @property
     def description(self) -> str:
