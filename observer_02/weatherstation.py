@@ -1,8 +1,6 @@
 from typing import Dict
 
-from interfaces.observer import ObserverInterface
-from interfaces.observable import ObservableInterface
-from weatherinfo import WeatherInfo
+from lib import ObserverInterface, ObservableInterface, WeatherInfo
 
 
 class WeatherStation(ObservableInterface):

@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from observer_02.weatherinfo import WeatherInfo
+from .weatherinfo import WeatherInfo
 
 
 class ObserverInterface(Protocol):

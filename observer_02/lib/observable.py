@@ -1,7 +1,7 @@
 from typing import Protocol
 
 
-from .observer import ObserverInterface
+from . import ObserverInterface
 
 
 class ObservableInterface(Protocol):

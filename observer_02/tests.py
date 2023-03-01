@@ -8,7 +8,7 @@ def test_observer_priority():
     display = Display()
     stats_display = StatisticDisplay()
 
-    station = WeatherStation()
+    station = WeatherStation('test station')
 
     station.register_observer(stats_display, 2)
     station.register_observer(display, 1)
