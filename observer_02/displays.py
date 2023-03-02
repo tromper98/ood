@@ -34,8 +34,8 @@ class StatisticDisplay(ObserverInterface):
     _avg_wind_direction: float
     _avg_wind_speed: float
 
-    __sum_sin: float
-    __sum_cos: float
+    _sum_sin: float
+    _sum_cos: float
 
     _measure_count: int
 
@@ -55,8 +55,8 @@ class StatisticDisplay(ObserverInterface):
         self._avg_wind_direction = 0.0
         self._avg_wind_direction = 0.0
 
-        self.__sum_sin = 0.0
-        self.__sum_cos = 0.0
+        self._sum_sin = 0.0
+        self._sum_cos = 0.0
 
         self._measure_count = 0
         self._source_info = None
@@ -112,11 +112,11 @@ class StatisticDisplay(ObserverInterface):
                                   'Humidity')
 
     def _update_avg_wind_parameters(self, info: WeatherInfo):
-        self.__sum_sin += info.wind_speed * math.sin(math.radians(info.wind_direction))
-        self.__sum_cos += info.wind_speed * math.cos(math.radians(info.wind_direction))
+        self._sum_sin += info.wind_speed * math.sin(math.radians(info.wind_direction))
+        self._sum_cos += info.wind_speed * math.cos(math.radians(info.wind_direction))
 
-        avg_sin = self.__sum_sin / self._measure_count
-        avg_cos = self.__sum_cos / self._measure_count
+        avg_sin = self._sum_sin / self._measure_count
+        avg_cos = self._sum_cos / self._measure_count
 
         self._avg_wind_direction = (math.degrees(math.atan2(avg_sin, avg_cos)) + 360) % 360
         self._avg_wind_speed = math.sqrt(avg_sin * avg_sin + avg_cos * avg_cos)
