@@ -32,6 +32,7 @@ class WeatherData(ObservableInterface):
     def notify_observers(self):
         for observer in self._observers:
             observer.update(self, self.get_measurements())
+            #Проверить как обновляется коллекция при изменении ее в процессе итерации
 
     def measurements_changed(self):
         self.notify_observers()

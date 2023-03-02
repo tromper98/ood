@@ -83,6 +83,7 @@ class StatisticDisplay(ObserverInterface):
                                   self._sum_temperature,
                                   'Temperature')
 
+    # Устранить дублирование кода. Минимальное, максимальное, среднее
     def _update_pressure(self, info: WeatherInfo):
         if self._min_pressure > info.pressure:
             self._min_pressure = info.pressure
