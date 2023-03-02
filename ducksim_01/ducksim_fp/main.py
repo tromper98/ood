@@ -41,7 +41,7 @@ def no_dance() -> str:
     return ''
 
 
-class Context:
+class DuckContext:
     _name: str
     _fly_strategy: Callable
     _quack_strategy: Callable
@@ -79,9 +79,9 @@ class Context:
         self._dance_strategy = new_strategy
 
 
-readhead_duck = Context('Красноголовая уточка', fly_with_wing, quack, minuet)
-mallard_duck = Context('Дикая уточка', fly_with_wing, quack, waltz)
-decoy_duck = Context('Маннок для уток', fly_no_way, mute_quack, no_dance)
-rubber_duck = Context('Резиновая уточка', fly_no_way, squeak, no_dance)
+readhead_duck = DuckContext('Красноголовая уточка', fly_with_wing, quack, minuet)
+mallard_duck = DuckContext('Дикая уточка', fly_with_wing, quack, waltz)
+decoy_duck = DuckContext('Маннок для уток', fly_no_way, mute_quack, no_dance)
+rubber_duck = DuckContext('Резиновая уточка', fly_no_way, squeak, no_dance)
 
 pass
