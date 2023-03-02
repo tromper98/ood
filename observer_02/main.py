@@ -1,4 +1,4 @@
-from weatherdata import WeatherData
+from observer_02.lib.weatherdata import WeatherData
 from displays import *
 
 

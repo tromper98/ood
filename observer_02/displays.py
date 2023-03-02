@@ -1,6 +1,7 @@
 import math
 
-from lib import ObserverInterface, ObservableInterface, WeatherCalc, WeatherInfo
+from lib.interfaces import ObserverInterface, ObservableInterface
+from lib import WeatherCalc, WeatherInfo
 
 
 class Display(ObserverInterface):

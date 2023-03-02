@@ -1,6 +1,7 @@
 from typing import Dict
 
-from lib import ObserverInterface, ObservableInterface, WeatherInfo
+from .interfaces import ObserverInterface, ObservableInterface
+from . import WeatherInfo
 
 
 class WeatherData(ObservableInterface):
@@ -33,6 +34,7 @@ class WeatherData(ObservableInterface):
         for observer in self._observers:
             observer.update(self, self.get_measurements())
             #Проверить как обновляется коллекция при изменении ее в процессе итерации
+            # Выпадает ошибка RuntimeError: dictionary changed size during iteration
 
     def measurements_changed(self):
         self.notify_observers()

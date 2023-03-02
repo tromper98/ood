@@ -1,6 +1,4 @@
-import pytest
-
-from weatherdata import WeatherData
+from lib.weatherdata import WeatherData
 from displays import *
 
 
