@@ -1,17 +1,13 @@
-from typing import Dict
-
-from .interfaces import ObserverInterface, ObservableInterface
-from . import WeatherInfo
+from . import WeatherInfo, Observable
 
 
-class WeatherData(ObservableInterface):
+class WeatherData(Observable):
     _temperature: float
     _humidity: float
     _pressure: float
     _wind_direction: float
     _wind_speed: float
     _description: str
-    _observers: Dict[ObserverInterface, float]
 
     def __init__(self, description: str):
         self._temperature = 0.0
@@ -20,21 +16,8 @@ class WeatherData(ObservableInterface):
         self._wind_direction = 0.0
         self._wind_speed = 0.0
         self._description = description
-        self._observers = {}
 
-    def register_observer(self, observer: ObserverInterface, priority: int):
-        self._observers[observer] = priority
-        sorted_observers = sorted(self._observers.items(), key=lambda x: x[1])
-        self._observers = dict(sorted_observers)
-
-    def remove_observer(self, observer: ObserverInterface):
-        self._observers.pop(observer)
-
-    def notify_observers(self):
-        for observer in self._observers:
-            observer.update(self, self.get_measurements())
-            #Проверить как обновляется коллекция при изменении ее в процессе итерации
-            # Выпадает ошибка RuntimeError: dictionary changed size during iteration
+        super().__init__()
 
     def measurements_changed(self):
         self.notify_observers()
