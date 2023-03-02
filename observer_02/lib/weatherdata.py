@@ -20,14 +20,15 @@ class WeatherData(Observable):
         super().__init__()
 
     def measurements_changed(self):
-        self.notify_observers()
+        self.notify_observers(self.get_measurements())
 
     def get_measurements(self) -> WeatherInfo:
         return WeatherInfo(temperature=self.temperature,
                            humidity=self.humidity,
                            pressure=self.pressure,
                            wind_direction=self._wind_direction,
-                           wind_speed=self._wind_speed)
+                           wind_speed=self._wind_speed,
+                           source_description=self._description)
 
     def set_measurements(self, temperature: float, humidity: float, pressure: float, wind_direction: float, wind_speed: float):
         self._temperature = temperature
@@ -57,6 +58,3 @@ class WeatherData(Observable):
     @property
     def wind_speed(self) -> float:
         return self._wind_speed
-
-    def get_info(self) -> str:
-        return self._description

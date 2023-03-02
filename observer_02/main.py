@@ -2,7 +2,7 @@ from observer_02.lib.weatherdata import WeatherData
 from displays import *
 
 
-in_station = WeatherData('intra-house station')
+in_station = WeatherData('in house station')
 out_station = WeatherData('outdoor station')
 
 display = Display()

@@ -12,7 +12,7 @@ class ObservableInterface(Protocol):
     def remove_observer(self, observer: ObserverInterface) -> None:
         ...
 
-    def notify_observers(self) -> None:
+    def notify_observers(self, info) -> None:
         ...
 
     def get_info(self) -> str:

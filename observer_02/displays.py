@@ -7,10 +7,9 @@ from lib import WeatherCalc, WeatherInfo
 class Display(ObserverInterface):
     _source_info: str
 
-    def update(self, observable: ObservableInterface, info: WeatherInfo):
-        self._source_info = observable.get_info()
+    def update(self, info: WeatherInfo):
         print('-' * 15, end='\n')
-        print(f'Info from {self._source_info} sensor', end='\n\n')
+        print(f'Info from {info.source_description} sensor', end='\n\n')
         print(f'Current Temp: {info.temperature}')
         print(f'Current Pressure: {info.pressure}')
         print(f'Current Humidity: {info.humidity}')
@@ -45,9 +44,9 @@ class StatisticDisplay(ObserverInterface):
 
         self._measure_count = 0
 
-    def update(self, observable: ObservableInterface, info: WeatherInfo):
+    def update(self, info: WeatherInfo):
         self._update_measurements(info)
-        self._display_measurements(observable.get_info())
+        self._display_measurements(info.source_description)
 
 #        self._update_avg_wind_parameters(info)
 

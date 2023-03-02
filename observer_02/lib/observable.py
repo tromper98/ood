@@ -17,8 +17,8 @@ class Observable(ObservableInterface):
     def remove_observer(self, observer: ObserverInterface):
         self._observers.pop(observer)
 
-    def notify_observers(self):
+    def notify_observers(self, info):
         for observer in self._observers:
-            observer.update(self, self.get_measurements())
+            observer.update(info)
             # Проверить как обновляется коллекция при изменении ее в процессе итерации
             # Выпадает ошибка RuntimeError: dictionary changed size during iteration
