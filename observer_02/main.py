@@ -1,5 +1,5 @@
 from observer_02.lib.weatherdata import WeatherData
-from displays import *
+from observer_02.lib.displays import *
 
 
 in_station = WeatherData('in house station')

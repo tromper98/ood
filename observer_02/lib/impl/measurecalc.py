@@ -1,4 +1,4 @@
-class WeatherCalc:
+class MeasureCalc:
     _max_value: float
     _min_value: float
     _sum_value: float

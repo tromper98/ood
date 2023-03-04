@@ -8,4 +8,3 @@ class WeatherInfo:
     humidity: float
     wind_direction: float
     wind_speed: float
-    source_description: str

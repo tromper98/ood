@@ -1,5 +1,5 @@
-from lib.weatherdata import WeatherData
-from displays import *
+from observer_02.lib.weatherdata import WeatherData
+from observer_02.lib.displays import *
 
 
 def test_observer_priority():
@@ -25,7 +25,7 @@ def test_get_data_from_to_weather_data():
     second_station.register_observer(display, 1)
 
     first_station.set_measurements(1, 1, 1, 0, 0)
-    assert display._source_info == 'first_station'
+    assert display._source_description == 'first_station'
 
     second_station.set_measurements(2, 2, 2, 0, 0)
-    assert display._source_info == 'second_station'
+    assert display._source_description == 'second_station'

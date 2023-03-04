@@ -13,12 +13,14 @@ class Observable(ObservableInterface):
         self._observers[observer] = priority
         sorted_observers = sorted(self._observers.items(), key=lambda x: x[1])
         self._observers = dict(sorted_observers)
+        # Обычный dict не гарантирует сохранения порядка вставки
 
     def remove_observer(self, observer: ObserverInterface):
         self._observers.pop(observer)
 
     def notify_observers(self, info):
         for observer in self._observers:
-            observer.update(info)
+            observer.update(self, info)
             # Проверить как обновляется коллекция при изменении ее в процессе итерации
             # Выпадает ошибка RuntimeError: dictionary changed size during iteration
+            # Поддержать возможность добавлять или удалять во время notify

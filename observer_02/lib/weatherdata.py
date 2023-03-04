@@ -1,4 +1,4 @@
-from . import WeatherInfo, Observable
+from .impl import WeatherInfo, Observable
 
 
 class WeatherData(Observable):
@@ -20,15 +20,14 @@ class WeatherData(Observable):
         super().__init__()
 
     def measurements_changed(self):
-        self.notify_observers(self.get_measurements())
+        self.notify_observers(self.get_measurements()) # Передавать self, не упаковывать в WeatherInfo
 
     def get_measurements(self) -> WeatherInfo:
         return WeatherInfo(temperature=self.temperature,
                            humidity=self.humidity,
                            pressure=self.pressure,
                            wind_direction=self._wind_direction,
-                           wind_speed=self._wind_speed,
-                           source_description=self._description)
+                           wind_speed=self._wind_speed)
 
     def set_measurements(self, temperature: float, humidity: float, pressure: float, wind_direction: float, wind_speed: float):
         self._temperature = temperature
@@ -38,6 +37,9 @@ class WeatherData(Observable):
         self._wind_speed = wind_speed
 
         self.measurements_changed()
+
+    def get_info(self) -> str:
+        return self._description
 
     @property
     def temperature(self) -> float:
