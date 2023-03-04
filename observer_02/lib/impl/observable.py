@@ -1,5 +1,6 @@
 from typing import Dict
 from collections import OrderedDict
+from copy import copy
 
 from .interfaces import ObservableInterface, ObserverInterface
 
@@ -20,7 +21,8 @@ class Observable(ObservableInterface):
         self._observers.pop(observer)
 
     def notify_observers(self, info):
-        for observer in self._observers:
+        observers = copy(self._observers)
+        for observer in observers:
             observer.update(self, info)
             # Проверить как обновляется коллекция при изменении ее в процессе итерации
             # Выпадает ошибка RuntimeError: dictionary changed size during iteration
