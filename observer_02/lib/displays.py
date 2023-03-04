@@ -1,7 +1,5 @@
-import math
-
-from observer_02.lib.impl.interfaces import ObserverInterface
-from .impl import MeasureCalc, WeatherInfo
+from .impl.interfaces import ObserverInterface
+from .impl import MeasureCalc, WindMeasureCalc, WeatherInfo
 
 
 class Display(ObserverInterface):
@@ -27,27 +25,13 @@ class StatisticDisplay(ObserverInterface):
     _pressure_calc: MeasureCalc
     _humidity_calc: MeasureCalc
 
-    _avg_wind_direction: float
-    _avg_wind_speed: float
-
-    _sum_sin: float
-    _sum_cos: float
-
-    _measure_count: int
     _source_description: str
 
     def __init__(self):
         self._temperature_calc = MeasureCalc()
         self._humidity_calc = MeasureCalc()
         self._pressure_calc = MeasureCalc()
-
-        self._avg_wind_direction = 0.0
-        self._avg_wind_direction = 0.0
-
-        self._sum_sin = 0.0
-        self._sum_cos = 0.0
-
-        self._measure_count = 0
+        self._wind_calc = WindMeasureCalc()
 
         self._source_description = ''
 
@@ -55,14 +39,11 @@ class StatisticDisplay(ObserverInterface):
         self._update_measurements(info)
         self._display_measurements(observable.get_info())
 
-        # Вынести в отдельный класс расчета движения воздуха
-        self._measure_count += 1
-        self._update_avg_wind_parameters(info)
-
     def _update_measurements(self, info: WeatherInfo) -> None:
         self._temperature_calc.update_values(info.temperature)
         self._pressure_calc.update_values(info.pressure)
         self._humidity_calc.update_values(info.humidity)
+        self._wind_calc.update_values(info.wind_speed, info.wind_direction)
 
     def _display_measurements(self, source_name: str) -> None:
         print('-' * 15, end='\n')
@@ -70,6 +51,7 @@ class StatisticDisplay(ObserverInterface):
         self._display_measurement('temperature', self._temperature_calc)
         self._display_measurement('humidity', self._humidity_calc)
         self._display_measurement('pressure', self._pressure_calc)
+        self._display_avg_wind_measurement()
         print('-' * 15, end='\n\n')
 
     @staticmethod
@@ -79,20 +61,7 @@ class StatisticDisplay(ObserverInterface):
         print(f'Avg {measure}: {round(values.avg_value, 2)}')
         print()
 
-    def _update_avg_wind_parameters(self, info: WeatherInfo):
-        self._sum_sin += info.wind_speed * math.sin(math.radians(info.wind_direction))
-        self._sum_cos += info.wind_speed * math.cos(math.radians(info.wind_direction))
-
-        avg_sin = self._sum_sin / self._measure_count
-        avg_cos = self._sum_cos / self._measure_count
-
-        self._avg_wind_direction = (math.degrees(math.atan2(avg_sin, avg_cos)) + 360) % 360
-        self._avg_wind_speed = math.sqrt(avg_sin * avg_sin + avg_cos * avg_cos)
-
-        self._display_avg_wind_measurement()
-
     def _display_avg_wind_measurement(self):
-        print(f'Source: {self._source_description}')
-        print(f'Avg wind direction: {round(self._avg_wind_direction, 2)}')
-        print(f'Avg wind speed: {round(self._avg_wind_speed, 2)}')
+        print(f'Avg wind direction: {round(self._wind_calc.avg_direction, 2)}')
+        print(f'Avg wind speed: {round(self._wind_calc.avg_speed, 2)}')
         print()

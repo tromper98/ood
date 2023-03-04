@@ -1,4 +1,5 @@
 from typing import Dict
+from collections import OrderedDict
 
 from .interfaces import ObservableInterface, ObserverInterface
 
@@ -12,7 +13,7 @@ class Observable(ObservableInterface):
     def register_observer(self, observer: ObserverInterface, priority: int):
         self._observers[observer] = priority
         sorted_observers = sorted(self._observers.items(), key=lambda x: x[1])
-        self._observers = dict(sorted_observers)
+        self._observers = OrderedDict(sorted_observers)
         # Обычный dict не гарантирует сохранения порядка вставки
 
     def remove_observer(self, observer: ObserverInterface):
