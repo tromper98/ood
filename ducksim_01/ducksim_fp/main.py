@@ -4,13 +4,21 @@ from typing import Callable
 # Fly strategies
 
 
-def fly_no_way(count: int) -> str:
-    return 'Летать не умею'
+def fly_no_way() -> Callable:
+    def perform_fly():
+        return 'Летать не умею'
+    return perform_fly
 
 
-def fly_with_wing(count: int) -> str:
-    # Добавить счетчик полетов
-    return f'Летим, машем крылышками. Полет по номером {count}'
+def fly_with_wing() -> Callable:
+    # Добавить счетчик полетов Замыкание в помощь.
+    fly_count: int = 0
+
+    def perform_fly():
+        nonlocal fly_count
+        fly_count += 1
+        return f'Летим, машем крылышками. Полет по номером {fly_count}'
+    return perform_fly
 
 
 # Quack strategies
@@ -51,15 +59,12 @@ class Duck:
                  fly_strategy: Callable,
                  quack_strategy: Callable,
                  dance_strategy: Callable):
-        self._fly_strategy = fly_strategy
+        self._fly_strategy = fly_strategy()
         self._quack_strategy = quack_strategy
         self._dance_strategy = dance_strategy
 
-        self._fly_count = 0
-
     def fly(self) -> None:
-        self._fly_count += 1
-        print(self._fly_strategy(self._fly_count))
+        print(self._fly_strategy())
 
     def quack(self) -> None:
         print(self._quack_strategy())
@@ -71,8 +76,7 @@ class Duck:
         ...
 
     def set_fly_strategy(self, new_strategy: Callable) -> None:
-        self._fly_strategy = new_strategy
-        self._fly_count = 0
+        self._fly_strategy = new_strategy()
 
     def set_quack_strategy(self, new_strategy: Callable) -> None:
         self._quack_strategy = new_strategy
