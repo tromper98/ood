@@ -5,12 +5,36 @@ from .lib.impl.interfaces import *
 
 class DisplaySubscriber(Display):
 
-    @staticmethod
-    def subscribe_observer(observable: ObservableInterface, observer: ObserverInterface):
-        observable.register_observer(observer, 2)
+    def __init__(self):
+        super().__init__()
+        self._observer = None
+
+    def update(self, observable, info: WeatherInfo):
+        super(Display, self).update(observable, info)
+        self._subscribe_observer(observable, self._observer)
+
+    def add_observer(self, observer):
+        self._observer = observer
 
     @staticmethod
-    def remove_observer(observable: ObservableInterface, observer: ObserverInterface):
+    def _subscribe_observer(observable: ObservableInterface, observer: ObserverInterface):
+        observable.register_observer(observer, 2)
+
+
+class DisplayUnSubscriber(Display):
+    def __init__(self):
+        super().__init__()
+        self._observer = None
+
+    def update(self, observable, info: WeatherInfo):
+        super(Display, self).update(observable, info)
+        self._remove_observer(observable, self._observer)
+
+    def add_observer(self, observer):
+        self._observer = observer
+
+    @staticmethod
+    def _remove_observer(observable: ObservableInterface, observer: ObserverInterface):
         observable.remove_observer(observer)
 
 
@@ -48,9 +72,8 @@ def test_subscribe_observer_from_other_observer():
     display2 = Display()
 
     weather_data = WeatherData('test station')
-
+    display1.add_observer(display2)
     weather_data.register_observer(display1, 1)
-    display1.subscribe_observer(weather_data, display2)
 
     weather_data.set_measurements(1, 1, 1, 0, 0)
     observer_iter = iter(weather_data._observers)
@@ -59,7 +82,7 @@ def test_subscribe_observer_from_other_observer():
 
 
 def test_remove_observer_from_other_observer():
-    display1 = DisplaySubscriber()
+    display1 = DisplayUnSubscriber()
     display2 = Display()
     display3 = Display()
 
@@ -68,6 +91,7 @@ def test_remove_observer_from_other_observer():
     weather_data.register_observer(display2, 5)
     weather_data.register_observer(display3, 3)
 
+    display1.add_observer(display2)
     assert len(weather_data._observers) == 3
-    display1.remove_observer(weather_data, display2)
+    weather_data.set_measurements(1, 1, 1, 0, 0)
     assert len(weather_data._observers) == 2
