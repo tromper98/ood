@@ -1,3 +1,4 @@
+from typing import Optional
 from dataclasses import dataclass
 
 
@@ -6,5 +7,6 @@ class WeatherInfo:
     temperature: float
     pressure: float
     humidity: float
-    wind_direction: float
-    wind_speed: float
+    wind_direction: Optional[float] = None
+    wind_speed: Optional[float] = None
+

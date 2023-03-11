@@ -12,12 +12,21 @@ class Display(ObserverInterface):
         self._source_description = observable.get_info()
         print('-' * 15, end='\n')
         print(f'Info from {self._source_description} sensor', end='\n\n')
+        self._display_weather_info(info)
+        if info.wind_direction:
+            self._display_wind_data(info)
+        print('-' * 15, end='\n\n')
+
+    @staticmethod
+    def _display_weather_info(info: WeatherInfo) -> None:
         print(f'Current Temp: {info.temperature}')
         print(f'Current Pressure: {info.pressure}')
         print(f'Current Humidity: {info.humidity}')
+
+    @staticmethod
+    def _display_wind_data(info: WeatherInfo) -> None:
         print(f'Current Wind Direction: {info.wind_direction}')
         print(f'Current Wind Speed: {info.wind_speed}')
-        print('-' * 15, end='\n\n')
 
 
 class StatisticDisplay(ObserverInterface):
@@ -43,7 +52,8 @@ class StatisticDisplay(ObserverInterface):
         self._temperature_calc.update_values(info.temperature)
         self._pressure_calc.update_values(info.pressure)
         self._humidity_calc.update_values(info.humidity)
-        self._wind_calc.update_values(info.wind_speed, info.wind_direction)
+        if info.wind_direction:
+            self._wind_calc.update_values(info.wind_speed, info.wind_direction)
 
     def _display_measurements(self, source_name: str) -> None:
         print('-' * 15, end='\n')
