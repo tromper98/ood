@@ -1,4 +1,4 @@
-from interfaces.beverageinterface import BeverageInterface
+from interfaces import BeverageInterface
 
 
 class Beverage(BeverageInterface):
