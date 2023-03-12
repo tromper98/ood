@@ -123,3 +123,48 @@ class CoconutFlakes(CondimentDecorator):
 
     def get_condiment_cost(self) -> float:
         return 1 * self._mass
+
+
+class Cream(CondimentDecorator):
+
+    def __init__(self, beverage: BeverageInterface):
+        super().__init__(beverage)
+
+    def get_condiment_description(self) -> str:
+        return 'Cream'
+
+    def get_condiment_cost(self) -> float:
+        return 25
+
+
+class Chocolate(CondimentDecorator):
+    _count: int
+
+    def __init__(self, beverage: BeverageInterface, count: int):
+        super().__init__(beverage)
+        self._count = count
+
+    def get_condiment_description(self) -> str:
+        return f'Chocolate slices x {self._count}'
+
+    def get_condiment_cost(self) -> float:
+        return 10 * self._count
+
+
+class LiquorType(Enum):
+    NUT = 'Nut'
+    CHOCOLATE = 'Chocolate'
+    
+
+class Liquor(CondimentDecorator):
+    _liquor_type: LiquorType
+    
+    def __init__(self, beverage: BeverageInterface, liquor_type: LiquorType):
+        super().__init__(beverage)
+        self._liquor_type = liquor_type
+        
+    def get_condiment_description(self) -> str:
+        return f'{self._liquor_type.value} Liquor'
+    
+    def get_condiment_cost(self) -> float:
+        return 50
