@@ -1,5 +1,8 @@
-from .impl.interfaces import ObserverInterface
+from typing import Optional, Dict
+
+from .impl.interfaces import ObserverInterface, ObservableInterface
 from .impl import MeasureCalc, WindMeasureCalc, WeatherInfo
+from .weatherdatapro import WeatherDataPro
 
 
 class Display(ObserverInterface):
@@ -8,7 +11,7 @@ class Display(ObserverInterface):
     def __init__(self):
         self._source_description = ''
 
-    def update(self, observable, info: WeatherInfo):
+    def update(self, observable: ObservableInterface, info: WeatherInfo):
         self._source_description = observable.get_info()
         print('-' * 15, end='\n')
         print(f'Info from {self._source_description} sensor', end='\n\n')
@@ -29,39 +32,60 @@ class Display(ObserverInterface):
         print(f'Current Wind Speed: {info.wind_speed}')
 
 
-class StatisticDisplay(ObserverInterface):
-    _temperature_calc: MeasureCalc
-    _pressure_calc: MeasureCalc
-    _humidity_calc: MeasureCalc
+class ObservableStatistic:
+    _observable: ObservableInterface
+    temperature_calc: MeasureCalc
+    pressure_calc: MeasureCalc
+    humidity_calc: MeasureCalc
+    wind_calc: Optional[WindMeasureCalc]
 
-    _source_description: str
+    description: str
+
+    def __init__(self, observable: ObservableInterface) -> None:
+        self._observable = observable
+        self.description = observable.get_info()
+        self.temperature_calc = MeasureCalc()
+        self.pressure_calc = MeasureCalc()
+        self.humidity_calc = MeasureCalc()
+
+        if isinstance(observable, WeatherDataPro):
+            self.wind_calc = WindMeasureCalc()
+        else:
+            self.wind_calc = None
+
+    def update_measurements(self, info: WeatherInfo):
+        self.temperature_calc.update_values(info.temperature)
+        self.pressure_calc.update_values(info.pressure)
+        self.humidity_calc.update_values(info.humidity)
+
+        if self.wind_calc:
+            self.wind_calc.update_values(info.wind_speed, info.wind_direction)
+
+
+class StatisticDisplay(ObserverInterface):
+    _observables: Dict[ObservableInterface, ObservableStatistic]
 
     def __init__(self):
-        self._temperature_calc = MeasureCalc()
-        self._humidity_calc = MeasureCalc()
-        self._pressure_calc = MeasureCalc()
-        self._wind_calc = WindMeasureCalc()
+        self._observables = {}
 
-        self._source_description = ''
+    def update(self, observable: ObservableInterface, info: WeatherInfo) -> None:
+        if observable not in self._observables.keys():
+            self._observables[observable] = ObservableStatistic(observable)
 
-    def update(self, observable, info: WeatherInfo):
-        self._update_measurements(info)
-        self._display_measurements(observable.get_info())
+        statistics: ObservableStatistic = self._observables[observable]
+        statistics.update_measurements(info)
 
-    def _update_measurements(self, info: WeatherInfo) -> None:
-        self._temperature_calc.update_values(info.temperature)
-        self._pressure_calc.update_values(info.pressure)
-        self._humidity_calc.update_values(info.humidity)
-        if info.wind_direction:
-            self._wind_calc.update_values(info.wind_speed, info.wind_direction)
+        self._display_measurements(statistics)
 
-    def _display_measurements(self, source_name: str) -> None:
+    def _display_measurements(self, statistics: ObservableStatistic) -> None:
         print('-' * 15, end='\n')
-        print(f'Info from {source_name} sensor', end='\n\n')
-        self._display_measurement('temperature', self._temperature_calc)
-        self._display_measurement('humidity', self._humidity_calc)
-        self._display_measurement('pressure', self._pressure_calc)
-        self._display_avg_wind_measurement()
+        print(f'Info from {statistics.description} sensor', end='\n\n')
+        self._display_measurement('temperature', statistics.temperature_calc)
+        self._display_measurement('humidity', statistics.humidity_calc)
+        self._display_measurement('pressure', statistics.pressure_calc)
+
+        if statistics.wind_calc:
+            self._display_avg_wind_measurement(statistics.wind_calc)
         print('-' * 15, end='\n\n')
 
     @staticmethod
@@ -71,7 +95,8 @@ class StatisticDisplay(ObserverInterface):
         print(f'Avg {measure}: {round(values.avg_value, 2)}')
         print()
 
-    def _display_avg_wind_measurement(self):
-        print(f'Avg wind direction: {round(self._wind_calc.avg_direction, 2)}')
-        print(f'Avg wind speed: {round(self._wind_calc.avg_speed, 2)}')
+    @staticmethod
+    def _display_avg_wind_measurement(values: WindMeasureCalc):
+        print(f'Avg wind direction: {round(values.avg_direction, 2)}')
+        print(f'Avg wind speed: {round(values.avg_speed, 2)}')
         print()

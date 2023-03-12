@@ -1,9 +1,10 @@
 from observer_02.lib.weatherdata import WeatherData
+from observer_02.lib.weatherdatapro import WeatherDataPro
 from observer_02.lib.displays import *
 
 
 in_station = WeatherData('in house station')
-out_station = WeatherData('outdoor station')
+out_station = WeatherDataPro('outdoor station')
 
 display = Display()
 stats_display = StatisticDisplay()
