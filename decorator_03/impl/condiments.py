@@ -1,6 +1,6 @@
 from enum import Enum
 
-from interfaces import BeverageInterface
+from .interfaces import BeverageInterface
 
 
 class CondimentDecorator(BeverageInterface):
@@ -65,7 +65,7 @@ class IceCubes(CondimentDecorator):
         self._ice_cube_type = ice_cube_type
 
     def get_condiment_description(self) -> str:
-        return f'{self._ice_cube_type} ice cubes x {str(self._quantity)}'
+        return f'{self._ice_cube_type.value} ice cubes x {str(self._quantity)}'
 
     def get_condiment_cost(self) -> float:
         cost: float = 10 if self._ice_cube_type.DRY else 5
@@ -86,8 +86,8 @@ class Syrup(CondimentDecorator):
         super().__init__(beverage)
         self._syrup_type = syrup_type
 
-    def get_description(self) -> str:
-        return f'{self._syrup_type} syrup'
+    def get_condiment_description(self) -> str:
+        return f'{self._syrup_type.value} syrup'
 
     def get_condiment_cost(self) -> float:
         return 15
