@@ -1,6 +1,6 @@
 from impl import *
 
-latte = Latte()
+latte = Latte(CoffeePortion.DOUBLE)
 
 ic_latte = IceCubes(latte, 2, IceCubeType.WATER)
 c_ic_latte = Cinnamon(ic_latte)
