@@ -22,18 +22,18 @@ class StreamDecorator(InputStreamInterface, OutputStreamInterface):
     def write_block(self, data, size):
         ...
 
-    def process_byte(self):
+    def process_byte(self, byte):
         ...
 
-    def process_block(self):
+    def process_block(self, data):
         ...
 
 
 class Compress(StreamDecorator):
-    def process_byte(self):
+    def process_byte(self, byte):
         ...
 
-    def process_block(self):
+    def process_block(self, data):
         ...
 
     @staticmethod
@@ -59,10 +59,10 @@ class Compress(StreamDecorator):
 
 
 class Decompress(StreamDecorator):
-    def process_byte(self):
+    def process_byte(self, byte):
         ...
 
-    def process_block(self):
+    def process_block(self, data):
         ...
 
     @staticmethod
@@ -80,16 +80,39 @@ class Decompress(StreamDecorator):
 
 
 class Encrypt(StreamDecorator):
-    def process_byte(self):
-        ...
+    _alphabet: list
+    _encryption_key: int
 
-    def process_block(self):
-        ...
+    def __init__(self, encryption_key: int):
+        self._alphabet = self._create_byte_array()
+        self._encryption_key = encryption_key
+
+    def process_byte(self, byte) -> bytes:
+        return self._encrypt_byte(byte)
+
+    def process_block(self, data: bytearray) -> bytearray:
+        encrypted = []
+        for byte in data:
+            encrypted.append(self._encrypt_byte(bytes(byte)))
+        return encrypted
+
+    def _encrypt_byte(self, byte: bytes) -> bytes:
+        shift = self._encryption_key - 256 * (self._encryption_key // 256)
+        pos = self._alphabet.index(byte)
+        return self._alphabet[pos + shift]
+
+    @staticmethod
+    def _create_byte_array() -> list:
+        byte_arr = []
+        for i in range(256):
+            byte_arr.append(bytes(i))
+
+        return byte_arr + byte_arr
 
 
 class Decrypt(StreamDecorator):
-    def process_byte(self):
+    def process_byte(self, byte):
         ...
 
-    def process_block(self):
+    def process_block(self, data):
         ...

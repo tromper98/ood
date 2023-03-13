@@ -15,3 +15,11 @@ def test_rle_decompress():
     expected = 'EEEEHHHHHHHHHDDDLLLLLLLLLLLLLLLLLAA'
     result = Decompress._rle_decompress(compressed_data)
     assert expected == result
+
+
+def test_encrypt():
+    encrypt = Encrypt(3)
+    raw_data = b'Hello World'
+    expected = b'Khoor#Zruog'
+    result = encrypt.process_block(raw_data)
+    assert expected == result
