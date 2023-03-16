@@ -11,13 +11,18 @@ class Observable(ObservableInterface):
     def __init__(self):
         self._observers = {}
 
+    def __del__(self):
+        observers = copy(self._observers)
+        for observer in observers:
+            observer.remove_observable(self)
+
     def register_observer(self, observer: ObserverInterface, priority: int):
         self._observers[observer] = priority
         sorted_observers = sorted(self._observers.items(), key=lambda x: x[1])
         self._observers = OrderedDict(sorted_observers)
         # Обычный dict не гарантирует сохранения порядка вставки
 
-    def remove_observer(self, observer: ObserverInterface):
+    def remove(self, observer: ObserverInterface):
         self._observers.pop(observer)
 
     def notify_observers(self, info):

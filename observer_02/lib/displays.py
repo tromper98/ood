@@ -77,6 +77,9 @@ class StatisticDisplay(ObserverInterface):
 
         self._display_measurements(statistics)
 
+    def remove_observable(self, observable):
+        self._observables.pop(observable)
+
     def _display_measurements(self, statistics: ObservableStatistic) -> None:
         print('-' * 15, end='\n')
         print(f'Info from {statistics.description} sensor', end='\n\n')
