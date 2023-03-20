@@ -64,6 +64,7 @@ class ObservableStatistic:
 
 class StatisticDisplay(ObserverInterface):
     _observables: Dict[ObservableInterface, ObservableStatistic]
+    #решить задачу указанием двух ссылок в наблюдателе
 
     def __init__(self):
         self._observables = {}
