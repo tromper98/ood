@@ -158,9 +158,9 @@ class RegularPolygon(Shape):
     def _get_vertexes(self) -> List[Point]:
         vertexes = []
         fi = 360 / self._vertex_count
-        for i in range(self._vertex_count):
-            x = self.center.x + self.radius * cos(fi + 2 * pi/self._vertex_count)
-            y = self.center.x + self.radius * sin(fi + 2 * pi/self._vertex_count)
+        for i in range(1, self._vertex_count + 1):
+            x = self.center.x + self.radius * cos(fi + 2 * pi * i/self._vertex_count)
+            y = self.center.y + self.radius * sin(fi + 2 * pi * i/self._vertex_count)
             vertexes.append(Point(x, y))
         return vertexes
 
