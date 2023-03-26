@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from color import Color
+from .color import Color
 
 
 class CanvasInterface(Protocol):

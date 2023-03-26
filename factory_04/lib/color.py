@@ -1,10 +1,10 @@
-from enum import Enum, auto
+from enum import Enum
 
 
 class Color(Enum):
-    Green = auto()
-    Red = auto()
-    Blue = auto()
-    Yellow = auto()
-    Pink = auto()
-    Black = auto()
+    Green = '#66CC00'
+    Red = '#FF0000'
+    Blue = '#3399FF'
+    Yellow = '#FFFF66'
+    Pink = '#FF66FF'
+    Black = '#000000'

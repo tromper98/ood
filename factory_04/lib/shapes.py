@@ -1,9 +1,9 @@
 from math import sqrt, cos, sin, pi
 from typing import List, Optional
 
-from color import Color
-from canvas import CanvasInterface
-from point import Point
+from .color import Color
+from .canvas import CanvasInterface
+from .point import Point
 
 
 class Shape:
