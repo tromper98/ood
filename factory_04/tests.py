@@ -41,6 +41,68 @@ class MockCanvas(CanvasInterface):
         self.h_radius = h_radius
         self.v_radius = v_radius
 
+
+def is_equal_rectangle(first: Rectangle, second: Rectangle) -> bool:
+    if first.left_top != second.left_top:
+        return False
+
+    if first.right_bottom != second.right_bottom:
+        return False
+
+    if first.color != second.color:
+        return False
+
+    return True
+
+
+def is_equal_triangle(first: Triangle, second: Triangle) -> bool:
+    if first.vertex1 != second.vertex1:
+        return False
+
+    if first.vertex2 != second.vertex2:
+        return False
+
+    if first.vertex3 != second.vertex3:
+        return False
+
+    if first.color != second.color:
+        return False
+
+    return True
+
+
+def is_equal_ellipse(first: Ellipse, second: Ellipse) -> bool:
+    if first.center != second.center:
+        return False
+
+    if first.vertical_radius != second.vertical_radius:
+        return False
+
+    if first.horizontal_radius != second.horizontal_radius:
+        return False
+
+    if first.color != second.color:
+        return False
+
+    return True
+
+
+def is_equal_regular_polygon(first: RegularPolygon, second: RegularPolygon) -> bool:
+    if first.center != second.center:
+        return False
+
+    if first.radius != second.radius:
+        return False
+
+    if first.vertex_count != second.vertex_count:
+        return False
+
+    if first.color != second.color:
+        return False
+
+    return True
+
+
 def test_create_shape():
     shape = Shape(Color.Yellow)
     assert shape.color == Color.Yellow
@@ -149,3 +211,57 @@ def test_draw_regular_polygon():
 
     assert m_canvas.lines == expected_lines
     assert m_canvas.color == expected_color
+
+
+def test_shape_factory_parse_params():
+    factory = ShapeFactory()
+    desc = 'rectangle red 10 -30 50 50'
+    shape_name, color, params = factory._parse_description(desc)
+
+    expected_shape_name = 'rectangle'
+    expected_color = Color.Red
+    expected_params = [10, -30, 50, 50]
+
+    assert expected_shape_name == shape_name
+    assert expected_color == color
+    assert expected_params == params
+
+
+def test_shape_factory_create_rectangle():
+    factory = ShapeFactory()
+    desc = 'rectangle pink 40 -100 80 30'
+
+    rectangle = factory.create_shape(desc)
+    expected = Rectangle(Point(40, -100), Point(80, 30), Color.Pink)
+
+    assert is_equal_rectangle(expected, rectangle)
+
+
+def test_shape_factory_create_triangle():
+    factory = ShapeFactory()
+    desc = 'triangle black 10 10 20 20 30 30'
+
+    triangle = factory.create_shape(desc)
+    expected = Triangle(Point(10, 10), Point(20, 20), Point(30, 30), Color.Black)
+
+    assert is_equal_triangle(expected, triangle)
+
+
+def test_shape_factory_create_ellipse():
+    factory = ShapeFactory()
+    desc = 'ellipse yellow 50 50 25 60'
+
+    ellipse = factory.create_shape(desc)
+    expected = Ellipse(Point(50, 50), 25, 60, Color.Yellow)
+
+    assert is_equal_ellipse(expected, ellipse)
+
+
+def test_shape_factory_create_regular_polygon():
+    factory = ShapeFactory()
+    desc = 'polygon red 35 100 50 8'
+
+    polygon = factory.create_shape(desc)
+    expected = RegularPolygon(Point(35, 100), 50, 8, Color.Red)
+
+    assert is_equal_regular_polygon(expected, polygon)
