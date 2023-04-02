@@ -3,3 +3,5 @@ from .color import Color
 from .point import Point
 from .shapes import Shape, Rectangle, Ellipse, RegularPolygon, Triangle
 from .shapefactory import ShapeFactory, ShapeFactoryInterface
+from .picturedraft import PictureDraft
+from .designer import Designer

@@ -1,3 +1,4 @@
+import colorama
 import pytest
 from typing import List
 
@@ -265,3 +266,42 @@ def test_shape_factory_create_regular_polygon():
     expected = RegularPolygon(Point(35, 100), 50, 8, Color.Red)
 
     assert is_equal_regular_polygon(expected, polygon)
+
+
+def test_picture_draft():
+    draft = PictureDraft()
+
+    rectangle = Rectangle(Point(20, 20), Point(100, -80), Color.Yellow)
+    ellipse = Ellipse(Point(0, 0), 45, 70, Color.Blue)
+    polygon = RegularPolygon(Point(5, 5), 100, 10, Color.Pink)
+
+    draft.add_shape(rectangle)
+    draft.add_shape(ellipse)
+    draft.add_shape(polygon)
+
+    assert draft.get_shape_count() == 3
+    assert draft.shapes[0] == rectangle
+    assert draft.shapes[1] == ellipse
+    assert draft.shapes[2] == polygon
+
+
+def test_designer():
+    designer = Designer(ShapeFactory())
+    desc = [
+        'rectangle red 10 -30 50 50',
+        'triangle black 10 10 20 20 30 30',
+        'ellipse yellow 50 50 25 60',
+        'polygon blue 35 100 50 8'
+    ]
+    draft = designer.create_draft(desc)
+
+    expected_rectangle = Rectangle(Point(10, -30), Point(50, 50), Color.Red)
+    expected_triangle = Triangle(Point(10, 10), Point(20, 20), Point(30, 30), Color.Black)
+    expected_ellipse = Ellipse(Point(50, 50), 25, 60, Color.Yellow)
+    expected_polygon = RegularPolygon(Point(35, 100), 50, 8, Color.Blue)
+
+    assert draft.get_shape_count() == 4
+    assert is_equal_rectangle(draft.shapes[0], expected_rectangle)
+    assert is_equal_triangle(draft.shapes[1], expected_triangle)
+    assert is_equal_ellipse(draft.shapes[2], expected_ellipse)
+    assert is_equal_regular_polygon(draft.shapes[3], expected_polygon)
